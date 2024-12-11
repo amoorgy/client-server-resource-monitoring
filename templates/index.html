@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Monitoring</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Client Monitoring Dashboard</h1>
+
+    <div class="threshold-form">
+        <h2>Set Thresholds</h2>
+        <form method="POST" action="/">
+            <label for="client">Select Client:</label>
+            <select name="client" required>
+                {% for client in client_data %}
+                    <option value="{{ client }}">{{ client }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="cpu">CPU Utilization Threshold (%):</label>
+            <input type="number" id="cpu" name="cpu" min="0" max="100" value="100" required>
+
+            <label for="cpu_temp">CPU Temperature Threshold (°C):</label>
+            <input type="number" id="cpu_temp" name="cpu_temp" min="0" value="100" required>
+
+            <label for="memory">Memory Utilization Threshold (%):</label>
+            <input type="number" id="memory" name="memory" min="0" max="100" value="100" required>
+
+            <label for="gpu_memory">GPU Memory Utilization Threshold (%):</label>
+            <input type="number" id="gpu_memory" name="gpu_memory" min="0" max="100" value="100" required>
+
+            <label for="gpu_temp">GPU Temperature Threshold (°C):</label>
+            <input type="number" id="gpu_temp" name="gpu_temp" min="0" value="100" required>
+
+            <button type="submit">Set Thresholds</button>
+        </form>
+    </div>
+
+    <h2>Client Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>CPU Utilization</th>
+                <th>CPU Temperature</th>
+                <th>Memory Utilization</th>
+                <th>GPU Memory Utilization</th>
+                <th>GPU Temperature</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client, data in client_data.items() %}
+                <tr>
+                    <td>{{ client }}</td>
+                    <td class="{% if data['CPU Utilization'] > thresholds[client]['CPU Utilization'] %}high{% else %}normal{% endif %}">
+                        {{ data['CPU Utilization'] }}%
+                    </td>
+                    <td class="{% if data['CPU Temperature'] > thresholds[client]['CPU Temperature'] %}high{% else %}normal{% endif %}">
+                        {{ data['CPU Temperature'] }}°C
+                    </td>
+                    <td class="{% if data['Memory Utilization'] > thresholds[client]['Memory Utilization'] %}high{% else %}normal{% endif %}">
+                        {{ data['Memory Utilization'] }}%
+                    </td>
+                    <td class="{% if data['GPU Memory Utilization'] > thresholds[client]['GPU Memory Utilization'] %}high{% else %}normal{% endif %}">
+                        {{ data['GPU Memory Utilization'] }}%
+                    </td>
+                    <td class="{% if data['GPU Temperature'] > thresholds[client]['GPU Temperature'] %}high{% else %}normal{% endif %}">
+                        {{ data['GPU Temperature'] }}°C
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        
+        
+    </table>
+
+    <h2>Threshold Settings</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>CPU Utilization</th>
+                <th>CPU Temperature</th>
+                <th>Memory Utilization</th>
+                <th>GPU Memory Utilization</th>
+                <th>GPU Temperature</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client, threshold in thresholds.items() %}
+                <tr>
+                    <td>{{ client }}</td>
+                    <td>{{ threshold['CPU Utilization'] }}%</td>
+                    <td>{{ threshold['CPU Temperature'] }}°C</td>
+                    <td>{{ threshold['Memory Utilization'] }}%</td>
+                    <td>{{ threshold['GPU Memory Utilization'] }}%</td>
+                    <td>{{ threshold['GPU Temperature'] }}°C</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
