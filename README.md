@@ -1,6 +1,4 @@
-Here's a more concise description for your GitHub repository:
-
-### Repository Description (Under 350 words):
+### Repository Description:
 **client-server-resource-monitoring**
 
 A Python-based client-server system designed for real-time monitoring and management of CPU, GPU, memory, and temperature utilization. This project allows two client devices to measure and send their resource data to a server, which processes and displays the information on a web page. Clients also have the ability to set thresholds for the parameters of the other client, with the server providing visual alerts (color changes) when the thresholds are exceeded.
