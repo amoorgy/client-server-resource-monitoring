@@ -46,5 +46,3 @@ client-server-resource-monitoring/
 ├── requirements.txt        # Required Python packages
 └── README.md               # Project documentation
 ```
-
-This concise description provides an overview of the project with key features and installation instructions in a GitHub-friendly format.
